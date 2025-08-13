@@ -13,16 +13,7 @@ import {
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import AdminNav from './admin-nav';
 
 export default function AdminLayout({
@@ -41,8 +32,16 @@ export default function AdminLayout({
               <span className="font-headline">Fatima Connect</span>
             </Link>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-auto py-2">
             <AdminNav />
+          </div>
+          <div className="mt-auto p-4 border-t">
+            <Button variant="ghost" className="w-full justify-start" asChild>
+              <Link href="/">
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
@@ -61,34 +60,19 @@ export default function AdminLayout({
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
                <AdminNav isMobile />
+                <div className="mt-auto p-4 border-t">
+                    <Button variant="ghost" className="w-full justify-start" asChild>
+                      <Link href="/">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                      </Link>
+                    </Button>
+                </div>
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
             {/* Can add a search bar here if needed */}
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <Avatar>
-                  <AvatarImage src="https://placehold.co/40x40.png" />
-                  <AvatarFallback>AD</AvatarFallback>
-                </Avatar>
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Admin Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Logout</span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {children}
