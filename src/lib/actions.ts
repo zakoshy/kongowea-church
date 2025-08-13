@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { generateAnnouncementDraft } from '@/ai/flows/generate-announcement-draft';
-import { addCommunity, getCommunities } from '@/lib/db';
+import { addCommunity, addEvent } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -91,4 +91,47 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
     }
 
     redirect('/admin/dashboard/communities');
+}
+
+const eventSchema = z.object({
+    title: z.string().min(3, 'Title must be at least 3 characters long'),
+    date: z.string().min(3, 'Date must be at least 3 characters long'),
+    description: z.string().min(10, 'Description must be at least 10 characters long'),
+});
+
+export type EventFormState = {
+    message: string;
+    issues?: string[];
+};
+
+export async function addEventAction(prevState: EventFormState, data: FormData): Promise<EventFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = eventSchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        }
+    }
+
+    try {
+        await addEvent({
+            id: Date.now().toString(),
+            title: parsed.data.title,
+            date: parsed.data.date,
+            description: parsed.data.description,
+            image: 'https://placehold.co/600x400.png', // Default placeholder
+            hint: 'church event',
+            status: 'Published'
+        });
+
+        revalidatePath('/admin/dashboard/events');
+        revalidatePath('/events');
+        
+    } catch(e) {
+        return { message: 'Failed to create event.'}
+    }
+
+    redirect('/admin/dashboard/events');
 }

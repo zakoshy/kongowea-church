@@ -1,0 +1,39 @@
+
+[
+  {
+    "id": "1",
+    "title": "Sunday Mass",
+    "date": "Every Sunday, 8:00 AM",
+    "description": "Join us for our weekly celebration of the Eucharist.",
+    "image": "https://placehold.co/600x400.png",
+    "hint": "church interior",
+    "status": "Recurring"
+  },
+  {
+    "id": "2",
+    "title": "Youth Fellowship",
+    "date": "Every Friday, 5:00 PM",
+    "description": "A gathering for young people to connect, learn, and grow in faith.",
+    "image": "https://placehold.co/600x400.png",
+    "hint": "youth praying",
+    "status": "Published"
+  },
+  {
+    "id": "3",
+    "title": "Annual Charity Drive",
+    "date": "October 28, 2024",
+    "description": "Our annual drive to support the less fortunate in our community.",
+    "image": "https://placehold.co/600x400.png",
+    "hint": "community support",
+    "status": "Archived"
+  },
+  {
+    "id": "4",
+    "title": "Choir Practice",
+    "date": "Every Tuesday & Thursday, 6:00 PM",
+    "description": "Join our talented choir to prepare for Sunday service.",
+    "image": "https://placehold.co/600x400.png",
+    "hint": "choir singing",
+    "status": "Recurring"
+  }
+]

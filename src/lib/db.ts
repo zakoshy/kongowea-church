@@ -4,13 +4,14 @@
  */
 import { promises as fs } from 'fs';
 import path from 'path';
-import type { Community } from './definitions';
+import type { Community, Event } from './definitions';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'lib', 'data', 'communities.json');
+const communitiesDataPath = path.join(process.cwd(), 'src', 'lib', 'data', 'communities.json');
+const eventsDataPath = path.join(process.cwd(), 'src', 'lib', 'data', 'events.json');
 
-async function readData(): Promise<Community[]> {
+async function readData<T>(filePath: string): Promise<T[]> {
   try {
-    const fileContent = await fs.readFile(dataFilePath, 'utf-8');
+    const fileContent = await fs.readFile(filePath, 'utf-8');
     return JSON.parse(fileContent);
   } catch (error) {
     // If the file doesn't exist, return an empty array
@@ -25,16 +26,27 @@ function isNodeError(error: unknown): error is NodeJS.ErrnoException {
     return error instanceof Error;
 }
 
-async function writeData(data: Community[]): Promise<void> {
-  await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
+async function writeData<T>(filePath: string, data: T[]): Promise<void> {
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 export async function getCommunities(): Promise<Community[]> {
-  return await readData();
+  return await readData<Community>(communitiesDataPath);
 }
 
 export async function addCommunity(community: Community): Promise<void> {
-  const communities = await readData();
+  const communities = await getCommunities();
   communities.push(community);
-  await writeData(communities);
+  await writeData(communitiesDataPath, communities);
+}
+
+
+export async function getEvents(): Promise<Event[]> {
+    return await readData<Event>(eventsDataPath);
+}
+
+export async function addEvent(event: Event): Promise<void> {
+    const events = await getEvents();
+    events.push(event);
+    await writeData(eventsDataPath, events);
 }

@@ -2,16 +2,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Calendar } from "lucide-react";
+import { getEvents } from "@/lib/db";
 
-export default function EventsPage() {
-  const events = [
-    { title: "Sunday Mass", date: "Every Sunday, 8:00 AM", description: "Join us for our weekly celebration of the Eucharist.", image: "https://placehold.co/600x400.png", hint: "church interior" },
-    { title: "Youth Fellowship", date: "Every Friday, 5:00 PM", description: "A gathering for young people to connect, learn, and grow in faith.", image: "https://placehold.co/600x400.png", hint: "youth praying" },
-    { title: "Annual Charity Drive", date: "October 28, 2024", description: "Our annual drive to support the less fortunate in our community.", image: "https://placehold.co/600x400.png", hint: "community support" },
-    { title: "Parish Pastoral Council Meeting", date: "November 5, 2024", description: "Monthly meeting for the PPC to discuss parish matters.", image: "https://placehold.co/600x400.png", hint: "meeting discussion" },
-    { title: "Choir Practice", date: "Every Tuesday & Thursday, 6:00 PM", description: "Join our talented choir to prepare for Sunday service.", image: "https://placehold.co/600x400.png", hint: "choir singing" },
-    { title: "Advent Retreat", date: "December 1-3, 2024", description: "A spiritual retreat to prepare our hearts for the coming of Christ.", image: "https://placehold.co/600x400.png", hint: "peaceful retreat" },
-  ];
+export default async function EventsPage() {
+  const events = await getEvents();
 
   return (
     <div className="bg-background">
@@ -21,8 +15,8 @@ export default function EventsPage() {
           <p className="text-muted-foreground mt-2 text-lg">Join us in our parish activities and celebrations.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event, index) => (
-            <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+          {events.map((event) => (
+            <Card key={event.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader className="p-0">
                 <Image src={event.image} alt={event.title} width={600} height={400} className="w-full h-56 object-cover" data-ai-hint={event.hint} />
               </CardHeader>

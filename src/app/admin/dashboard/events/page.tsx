@@ -25,15 +25,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
+import { getEvents } from '@/lib/db';
   
 
-export default function ManageEventsPage() {
-    const events = [
-        { title: "Sunday Mass", date: "2024-11-03", status: "Recurring" },
-        { title: "Youth Fellowship", date: "2024-11-01", status: "Published" },
-        { title: "Annual Charity Drive", date: "2024-10-28", status: "Archived" },
-        { title: "Choir Practice", date: "2024-10-31", status: "Recurring" },
-      ];
+export default async function ManageEventsPage() {
+    const events = await getEvents();
 
   return (
     <Card>
@@ -65,8 +61,8 @@ export default function ManageEventsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {events.map((event, index) => (
-            <TableRow key={index}>
+            {events.map((event) => (
+            <TableRow key={event.id}>
               <TableCell className="font-medium">{event.title}</TableCell>
               <TableCell>
                 <Badge variant={event.status === "Published" ? "default" : "outline"}>{event.status}</Badge>
