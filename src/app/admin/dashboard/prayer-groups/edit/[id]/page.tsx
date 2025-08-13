@@ -24,14 +24,13 @@ import type { PrayerGroup } from '@/lib/definitions';
 
 export default function EditPrayerGroupPage({ params }: { params: { id: string } }) {
     const [group, setGroup] = React.useState<PrayerGroup | null>(null);
-    const id = params.id;
 
     React.useEffect(() => {
-        getPrayerGroup(id).then(setGroup);
-    }, [id]);
+        getPrayerGroup(params.id).then(setGroup);
+    }, [params.id]);
 
     const initialState: PrayerGroupFormState = { message: ''};
-    const updateAction = updatePrayerGroupAction.bind(null, id);
+    const updateAction = updatePrayerGroupAction.bind(null, params.id);
     const [state, formAction] = useActionState(updateAction, initialState);
 
     if (!group) {
