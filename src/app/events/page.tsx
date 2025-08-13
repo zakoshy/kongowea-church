@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -18,15 +19,15 @@ export default async function EventsPage() {
           {events.map((event) => (
             <Card key={event.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader className="p-0">
-                <Image src={event.image} alt={event.title} width={600} height={400} className="w-full h-56 object-cover" data-ai-hint={event.hint} />
+                <Image src={event.Image || 'https://placehold.co/600x400.png'} alt={event.Title} width={600} height={400} className="w-full h-56 object-cover" data-ai-hint={event.hint} />
               </CardHeader>
               <CardContent className="p-6 flex-grow">
-                <CardTitle className="font-headline text-2xl">{event.title}</CardTitle>
+                <CardTitle className="font-headline text-2xl">{event.Title}</CardTitle>
                 <div className="flex items-center text-muted-foreground mt-2 text-sm">
                   <Calendar className="w-4 h-4 mr-2" />
-                  <span>{event.date}</span>
+                  <span>{event.Date}</span>
                 </div>
-                <CardDescription className="mt-4">{event.description}</CardDescription>
+                <CardDescription className="mt-4">{event.Description}</CardDescription>
               </CardContent>
               <CardFooter className="p-6 pt-0">
                 <Button variant="secondary">Add to Calendar</Button>

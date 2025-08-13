@@ -61,13 +61,13 @@ export default async function ManageCommunitiesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {communities.map((community, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium">{community.name}</TableCell>
+            {communities.map((community) => (
+            <TableRow key={community.id}>
+              <TableCell className="font-medium">{community.Name}</TableCell>
               <TableCell>
-                {community.members}
+                {community.Members}
               </TableCell>
-              <TableCell>{community.leader.name}</TableCell>
+              <TableCell>{community.Leader}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

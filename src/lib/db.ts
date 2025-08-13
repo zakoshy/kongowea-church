@@ -28,10 +28,10 @@ export async function getEvents(): Promise<Event[]> {
   return events;
 }
 
-export async function addEvent(event: Omit<Event, 'id' | 'status'>): Promise<void> {
+export async function addEvent(event: Omit<Event, 'id' | 'Status'>): Promise<void> {
     const newEvent: Omit<Event, 'id'> = {
         ...event,
-        status: 'Published'
+        Status: 'Published'
     }
     await addDoc(collection(db, "events"), newEvent);
 }

@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -47,11 +48,11 @@ export async function generateDraftAction(
 }
 
 const communitySchema = z.object({
-    name: z.string().min(3, 'Name must be at least 3 characters long'),
-    location: z.string().min(3, 'Location must be at least 3 characters long'),
-    members: z.coerce.number().min(1, 'There must be at least one member'),
-    leaderName: z.string().min(3, 'Leader name must be at least 3 characters long'),
-    leaderPhone: z.string().min(10, 'Please enter a valid phone number'),
+    Name: z.string().min(3, 'Name must be at least 3 characters long'),
+    Location: z.string().min(3, 'Location must be at least 3 characters long'),
+    Members: z.coerce.number().min(1, 'There must be at least one member'),
+    Leader: z.string().min(3, 'Leader name must be at least 3 characters long'),
+    Phone: z.string().min(10, 'Please enter a valid phone number'),
 });
 
 export type CommunityFormState = {
@@ -73,15 +74,13 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
 
     try {
         await addCommunity({
-            name: parsed.data.name,
-            location: parsed.data.location,
-            members: parsed.data.members,
-            leader: {
-                name: parsed.data.leaderName,
-                phone: parsed.data.leaderPhone,
-            },
-            description: "A new community group.",
-            image: "https://placehold.co/400x400.png",
+            Name: parsed.data.Name,
+            Location: parsed.data.Location,
+            Members: parsed.data.Members,
+            Leader: parsed.data.Leader,
+            Phone: parsed.data.Phone,
+            Description: "A new community group.",
+            Image: "https://placehold.co/400x400.png",
             hint: "community group"
         });
 
@@ -97,9 +96,9 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
 }
 
 const eventSchema = z.object({
-    title: z.string().min(3, 'Title must be at least 3 characters long'),
-    date: z.string().min(3, 'Date must be at least 3 characters long'),
-    description: z.string().min(10, 'Description must be at least 10 characters long'),
+    Title: z.string().min(3, 'Title must be at least 3 characters long'),
+    Date: z.string().min(3, 'Date must be at least 3 characters long'),
+    Description: z.string().min(10, 'Description must be at least 10 characters long'),
 });
 
 export type EventFormState = {
@@ -120,10 +119,10 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
 
     try {
         await addEvent({
-            title: parsed.data.title,
-            date: parsed.data.date,
-            description: parsed.data.description,
-            image: 'https://placehold.co/600x400.png', // Default placeholder
+            Title: parsed.data.Title,
+            Date: parsed.data.Date,
+            Description: parsed.data.Description,
+            Image: 'https://placehold.co/600x400.png', // Default placeholder
             hint: 'church event'
         });
 
@@ -139,9 +138,9 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
 }
 
 const teamMemberSchema = z.object({
-    name: z.string().min(3, 'Name must be at least 3 characters long.'),
-    role: z.string().min(3, 'Role must be at least 3 characters long.'),
-    image: z.any(),
+    Name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    Description: z.string().min(3, 'Role must be at least 3 characters long.'),
+    Image: z.any(),
 });
 
 export type TeamMemberFormState = {
@@ -168,9 +167,9 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
 
     try {
         await addTeamMember({
-            name: parsed.data.name,
-            role: parsed.data.role,
-            image: imageUrl,
+            Name: parsed.data.Name,
+            Description: parsed.data.Description,
+            Image: imageUrl,
             hint: 'person portrait',
         });
 

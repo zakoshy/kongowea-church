@@ -66,14 +66,14 @@ export default async function ManageTeamPage() {
               <TableCell className="font-medium">
                 <div className="flex items-center gap-3">
                   <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src={member.image} alt={member.name} data-ai-hint="person photo" />
-                    <AvatarFallback>{member.name.split(' ').map(n=>n[0]).join('')}</AvatarFallback>
+                    <AvatarImage src={member.Image} alt={member.Name} data-ai-hint="person photo" />
+                    <AvatarFallback>{member.Name.split(' ').map(n=>n[0]).join('')}</AvatarFallback>
                   </Avatar>
-                  {member.name}
+                  {member.Name}
                 </div>
               </TableCell>
               <TableCell>
-                {member.role}
+                {member.Description}
               </TableCell>
               <TableCell>
                 <DropdownMenu>

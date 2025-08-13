@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getTeamMembers } from "@/lib/db";
@@ -16,12 +17,12 @@ export default async function TeamPage() {
           {teamMembers.map((member) => (
             <Card key={member.id} className="text-center p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20">
-                <AvatarImage src={member.image} data-ai-hint={member.hint} />
-                <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                <AvatarImage src={member.Image} data-ai-hint={member.hint} />
+                <AvatarFallback>{member.Name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
               </Avatar>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">{member.name}</CardTitle>
-                <CardDescription className="text-primary">{member.role}</CardDescription>
+                <CardTitle className="font-headline text-2xl">{member.Name}</CardTitle>
+                <CardDescription className="text-primary">{member.Description}</CardDescription>
               </CardHeader>
             </Card>
           ))}

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormState } from 'react-dom';
@@ -45,26 +46,26 @@ export default function NewCommunityPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Community Name</Label>
-              <Input id="name" name="name" placeholder="e.g., Catholic Men Association" required />
+              <Label htmlFor="Name">Community Name</Label>
+              <Input id="Name" name="Name" placeholder="e.g., Catholic Men Association" required />
             </div>
              <div className="space-y-2">
-              <Label htmlFor="location">Location / Meeting Point</Label>
-              <Input id="location" name="location" placeholder="e.g., St. Peter's Hall" required />
+              <Label htmlFor="Location">Location / Meeting Point</Label>
+              <Input id="Location" name="Location" placeholder="e.g., St. Peter's Hall" required />
             </div>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="members">Total Members</Label>
-                  <Input id="members" name="members" type="number" placeholder="e.g., 50" required />
+                  <Label htmlFor="Members">Total Members</Label>
+                  <Input id="Members" name="Members" type="number" placeholder="e.g., 50" required />
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="leaderName">Community Head</Label>
-                    <Input id="leaderName" name="leaderName" placeholder="e.g., John Doe" required />
+                    <Label htmlFor="Leader">Community Head</Label>
+                    <Input id="Leader" name="Leader" placeholder="e.g., John Doe" required />
                  </div>
              </div>
             <div className="space-y-2">
-              <Label htmlFor="leaderPhone">Phone Number</Label>
-              <Input id="leaderPhone" name="leaderPhone" type="tel" placeholder="e.g., +254 700 123 456" required />
+              <Label htmlFor="Phone">Phone Number</Label>
+              <Input id="Phone" name="Phone" type="tel" placeholder="e.g., +254 700 123 456" required />
             </div>
             {state?.issues && (
               <div className="text-sm font-medium text-destructive">

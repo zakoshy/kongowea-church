@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormState } from 'react-dom';
@@ -44,16 +45,16 @@ export default function NewEventPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Event Title</Label>
-              <Input id="title" name="title" placeholder="e.g., Annual Charity Drive" required />
+              <Label htmlFor="Title">Event Title</Label>
+              <Input id="Title" name="Title" placeholder="e.g., Annual Charity Drive" required />
             </div>
              <div className="space-y-2">
-              <Label htmlFor="date">Date & Time</Label>
-              <Input id="date" name="date" placeholder="e.g., October 28, 2024" required />
+              <Label htmlFor="Date">Date & Time</Label>
+              <Input id="Date" name="Date" placeholder="e.g., October 28, 2024" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea id="description" name="description" placeholder="A short description of the event." required rows={5} />
+              <Label htmlFor="Description">Description</Label>
+              <Textarea id="Description" name="Description" placeholder="A short description of the event." required rows={5} />
             </div>
             {state?.issues && (
               <div className="text-sm font-medium text-destructive">

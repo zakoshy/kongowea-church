@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormState } from 'react-dom';
@@ -42,16 +43,16 @@ export default function NewTeamMemberPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" name="name" placeholder="e.g., Fr. John Doe" required />
+              <Label htmlFor="Name">Full Name</Label>
+              <Input id="Name" name="Name" placeholder="e.g., Fr. John Doe" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Input id="role" name="role" placeholder="e.g., Parish Priest" required />
+              <Label htmlFor="Description">Role</Label>
+              <Input id="Description" name="Description" placeholder="e.g., Parish Priest" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="image">Image</Label>
-              <Input id="image" name="image" type="file" required accept="image/*" />
+              <Label htmlFor="Image">Image</Label>
+              <Input id="Image" name="Image" type="file" required accept="image/*" />
             </div>
             {state?.issues && (
               <div className="text-sm font-medium text-destructive">

@@ -63,11 +63,11 @@ export default async function ManageEventsPage() {
           <TableBody>
             {events.map((event) => (
             <TableRow key={event.id}>
-              <TableCell className="font-medium">{event.title}</TableCell>
+              <TableCell className="font-medium">{event.Title}</TableCell>
               <TableCell>
-                <Badge variant={event.status === "Published" ? "default" : "outline"}>{event.status}</Badge>
+                <Badge variant={event.Status === "Published" ? "default" : "outline"}>{event.Status || 'Draft'}</Badge>
               </TableCell>
-              <TableCell>{event.date}</TableCell>
+              <TableCell>{event.Date}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

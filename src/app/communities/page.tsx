@@ -7,16 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Users, Music, HeartHandshake, Shield, Phone, User, Search } from "lucide-react";
 import type { Community } from '@/lib/definitions';
-
-// A placeholder to fetch real data
-async function getCommunities(): Promise<Community[]> {
-    const res = await fetch('/api/communities');
-    if (!res.ok) {
-        return [];
-    }
-    const data = await res.json();
-    return data.communities;
-}
+import { getCommunities } from '@/lib/db';
 
 
 export default function CommunitiesPage() {
@@ -29,12 +20,12 @@ export default function CommunitiesPage() {
         setCommunities(fetchedCommunities.map(c => ({
             ...c,
             // Assign icons dynamically based on name, this is a placeholder logic
-            icon: c.name.includes('Choir') ? Music : 
-                  c.name.includes('Men') ? Shield : 
-                  c.name.includes('Women') ? Users :
-                  c.name.includes('Vincent de Paul') ? HeartHandshake :
+            icon: c.Name.includes('Choir') ? Music : 
+                  c.Name.includes('Men') ? Shield : 
+                  c.Name.includes('Women') ? Users :
+                  c.Name.includes('Vincent de Paul') ? HeartHandshake :
                   Users,
-            image: `https://placehold.co/400x400.png`,
+            Image: c.Image || `https://placehold.co/400x400.png`,
             hint: 'community group'
         })));
     }
@@ -46,7 +37,7 @@ export default function CommunitiesPage() {
       return communities;
     }
     return communities.filter(community =>
-      community.name.toLowerCase().includes(searchTerm.toLowerCase())
+      community.Name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm, communities]);
 
@@ -78,25 +69,25 @@ export default function CommunitiesPage() {
               <Card key={index} className="text-center p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
                  <div className="flex justify-center">
                     <Avatar className="w-28 h-28 mb-4 border-4 border-primary/20">
-                      <AvatarImage src={community.image} data-ai-hint={community.hint} />
+                      <AvatarImage src={community.Image} data-ai-hint={community.hint} />
                       <AvatarFallback>{Icon ? <Icon className="w-12 h-12 text-muted-foreground" /> : null}</AvatarFallback>
                     </Avatar>
                  </div>
                 <CardHeader className="pt-0">
-                  <CardTitle className="font-headline text-2xl">{community.name}</CardTitle>
+                  <CardTitle className="font-headline text-2xl">{community.Name}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4">
-                  <CardDescription>{community.description}</CardDescription>
+                  <CardDescription>{community.Description}</CardDescription>
                   <div className="border-t pt-4 space-y-2 text-left text-sm">
                       <div className="flex items-center gap-2">
                           <User className="w-4 h-4 text-primary" />
                           <span className="font-semibold">Leader:</span>
-                          <span>{community.leader.name}</span>
+                          <span>{community.Leader}</span>
                       </div>
                        <div className="flex items-center gap-2">
                           <Phone className="w-4 h-4 text-primary" />
                            <span className="font-semibold">Contact:</span>
-                          <span>{community.leader.phone}</span>
+                          <span>{community.Phone}</span>
                       </div>
                   </div>
                 </CardContent>
