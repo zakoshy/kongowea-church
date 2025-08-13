@@ -151,6 +151,7 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
         await addEvent(parsed.data);
         revalidatePath('/admin/dashboard/events');
         revalidatePath('/events');
+        revalidatePath('/');
     } catch(e) {
         console.error(e)
         return { message: 'Failed to create event.'}
@@ -174,6 +175,7 @@ export async function updateEventAction(id: string, prevState: EventFormState, d
         await updateEvent(id, parsed.data);
         revalidatePath('/admin/dashboard/events');
         revalidatePath('/events');
+        revalidatePath('/');
     } catch(e) {
         console.error(e);
         return { message: 'Failed to update event.'}
@@ -187,6 +189,7 @@ export async function deleteEventAction(id: string) {
     await deleteEvent(id);
     revalidatePath('/admin/dashboard/events');
     revalidatePath('/events');
+    revalidatePath('/');
   } catch (e) {
     console.error(e);
     return { message: 'Failed to delete event.' };
