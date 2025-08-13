@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 export default function NewEventPage() {
     const initialState: EventFormState = { message: ''};
-    const [state, formAction] = useFormState(addEventAction, initialState);
+    const [state, formAction] = useActionState(addEventAction, initialState);
 
   return (
     <div className="container mx-auto py-10">

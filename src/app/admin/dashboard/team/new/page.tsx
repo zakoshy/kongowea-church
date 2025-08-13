@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,7 +20,7 @@ import { SubmitButton } from './submit-button';
 
 export default function NewTeamMemberPage() {
   const initialState: TeamMemberFormState = { message: '' };
-  const [state, formAction] = useFormState(addTeamMemberAction, initialState);
+  const [state, formAction] = useActionState(addTeamMemberAction, initialState);
 
   return (
     <div className="container mx-auto py-10">

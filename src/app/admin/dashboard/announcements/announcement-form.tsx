@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useFormStatus } from 'react-dom';
 import { generateDraftAction, type FormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -31,7 +31,7 @@ function SubmitButton() {
 
 export default function AnnouncementForm() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(generateDraftAction, initialState);
+  const [state, formAction] = useActionState(generateDraftAction, initialState);
   const { toast } = useToast();
 
   useEffect(() => {

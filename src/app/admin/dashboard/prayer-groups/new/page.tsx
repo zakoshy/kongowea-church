@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,7 +21,7 @@ import { SubmitButton } from './submit-button';
 
 export default function NewPrayerGroupPage() {
     const initialState: PrayerGroupFormState = { message: ''};
-    const [state, formAction] = useFormState(addPrayerGroupAction, initialState);
+    const [state, formAction] = useActionState(addPrayerGroupAction, initialState);
 
   return (
     <div className="container mx-auto py-10">
