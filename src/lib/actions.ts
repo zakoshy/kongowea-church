@@ -141,7 +141,7 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
 const teamMemberSchema = z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long.'),
     role: z.string().min(3, 'Role must be at least 3 characters long.'),
-    image: z.string().url({ message: 'Please enter a valid image URL.' }),
+    image: z.any(),
 });
 
 export type TeamMemberFormState = {
@@ -159,12 +159,18 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
             issues: parsed.error.issues.map(issue => issue.message),
         };
     }
+    
+    // This is a placeholder for the file upload logic.
+    // In a real app, you would upload the file to a service like Firebase Storage
+    // and get a URL back.
+    const imageUrl = 'https://placehold.co/400x400.png';
+
 
     try {
         await addTeamMember({
             name: parsed.data.name,
             role: parsed.data.role,
-            image: parsed.data.image,
+            image: imageUrl,
             hint: 'person portrait',
         });
 

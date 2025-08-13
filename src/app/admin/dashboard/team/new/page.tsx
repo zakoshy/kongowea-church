@@ -23,7 +23,7 @@ export default function NewTeamMemberPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <form action={formAction}>
+      <form action={formAction} encType="multipart/form-data">
         <Card className="max-w-3xl mx-auto">
           <CardHeader>
             <div className="flex items-center gap-4">
@@ -50,8 +50,8 @@ export default function NewTeamMemberPage() {
               <Input id="role" name="role" placeholder="e.g., Parish Priest" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="image">Image URL</Label>
-              <Input id="image" name="image" placeholder="e.g., https://placehold.co/400x400.png" type="url" required />
+              <Label htmlFor="image">Image</Label>
+              <Input id="image" name="image" type="file" required accept="image/*" />
             </div>
             {state?.issues && (
               <div className="text-sm font-medium text-destructive">
