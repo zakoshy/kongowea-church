@@ -21,5 +21,5 @@ export type Event = {
     description: string;
     image: string;
     hint: string;
-    status?: "Recurring" | "Published" | "Archived" | "Draft";
+    status: "Recurring" | "Published" | "Archived" | "Draft";
 }

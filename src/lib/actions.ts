@@ -73,20 +73,23 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
 
     try {
         await addCommunity({
-            id: Date.now().toString(),
             name: parsed.data.name,
             location: parsed.data.location,
             members: parsed.data.members,
             leader: {
                 name: parsed.data.leaderName,
                 phone: parsed.data.leaderPhone,
-            }
+            },
+            description: "A new community group.",
+            image: "https://placehold.co/400x400.png",
+            hint: "community group"
         });
 
         revalidatePath('/admin/dashboard/communities');
         revalidatePath('/communities');
         
     } catch(e) {
+        console.error(e);
         return { message: 'Failed to create community.'}
     }
 
@@ -117,19 +120,18 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
 
     try {
         await addEvent({
-            id: Date.now().toString(),
             title: parsed.data.title,
             date: parsed.data.date,
             description: parsed.data.description,
             image: 'https://placehold.co/600x400.png', // Default placeholder
-            hint: 'church event',
-            status: 'Published'
+            hint: 'church event'
         });
 
         revalidatePath('/admin/dashboard/events');
         revalidatePath('/events');
         
     } catch(e) {
+        console.error(e)
         return { message: 'Failed to create event.'}
     }
 

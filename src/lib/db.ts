@@ -1,58 +1,37 @@
 /**
- * @file This file is a temporary mock database for storing community data.
+ * @file This file is a mock database for storing community data.
  * In a real application, this would be replaced with a proper database like Firebase Firestore.
  */
-import { promises as fs } from 'fs';
-import path from 'path';
+import { db } from './firebase';
+import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
 import type { Community, Event } from './definitions';
 
-const communitiesDataPath = path.join(process.cwd(), 'src', 'lib', 'data', 'communities.json');
-const eventsDataPath = path.join(process.cwd(), 'src', 'lib', 'data', 'events.json');
-
-async function readData<T>(filePath: string): Promise<T[]> {
-  try {
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContent);
-  } catch (error) {
-    // If the file doesn't exist, return an empty array
-    if (isNodeError(error) && error.code === 'ENOENT') {
-      return [];
-    }
-    throw error;
-  }
-}
-
-function isNodeError(error: unknown): error is NodeJS.ErrnoException {
-    return error instanceof Error;
-}
-
-async function writeData<T>(filePath: string, data: T[]): Promise<void> {
-    const dir = path.dirname(filePath);
-    try {
-        await fs.access(dir);
-    } catch (e) {
-        await fs.mkdir(dir, { recursive: true });
-    }
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
 export async function getCommunities(): Promise<Community[]> {
-  return await readData<Community>(communitiesDataPath);
+  const querySnapshot = await getDocs(collection(db, "communities"));
+  const communities: Community[] = [];
+  querySnapshot.forEach((doc) => {
+    communities.push({ id: doc.id, ...doc.data() } as Community);
+  });
+  return communities;
 }
 
-export async function addCommunity(community: Community): Promise<void> {
-  const communities = await getCommunities();
-  communities.push(community);
-  await writeData(communitiesDataPath, communities);
+export async function addCommunity(community: Omit<Community, 'id'>): Promise<void> {
+    await addDoc(collection(db, "communities"), community);
 }
-
 
 export async function getEvents(): Promise<Event[]> {
-    return await readData<Event>(eventsDataPath);
+  const querySnapshot = await getDocs(collection(db, "events"));
+  const events: Event[] = [];
+  querySnapshot.forEach((doc) => {
+    events.push({ id: doc.id, ...doc.data() } as Event);
+  });
+  return events;
 }
 
-export async function addEvent(event: Event): Promise<void> {
-    const events = await getEvents();
-    events.push(event);
-    await writeData(eventsDataPath, events);
+export async function addEvent(event: Omit<Event, 'id' | 'status'>): Promise<void> {
+    const newEvent: Omit<Event, 'id'> = {
+        ...event,
+        status: 'Published'
+    }
+    await addDoc(collection(db, "events"), newEvent);
 }
