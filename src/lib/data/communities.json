@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1",
+    "name": "Catholic Men Association (CMA)",
+    "description": "A brotherhood fostering spiritual growth, leadership, and service among men in the parish.",
+    "leader": {
+      "name": "John Green",
+      "phone": "123-456-7890"
+    },
+    "members": 50,
+    "location": "St. Peter's Hall"
+  },
+  {
+    "id": "2",
+    "name": "Catholic Women Association (CWA)",
+    "description": "Empowering women through faith, fellowship, and charitable works within the community.",
+    "leader": {
+      "name": "Mary White",
+      "phone": "123-456-7891"
+    },
+    "members": 75,
+    "location": "St. Mary's Room"
+  },
+  {
+    "id": "3",
+    "name": "Parish Youth Group",
+    "description": "A dynamic group for young parishioners to engage in faith-based activities, service, and fun.",
+    "leader": {
+      "name": "Michael Brown",
+      "phone": "123-456-7892"
+    },
+    "members": 40,
+    "location": "Youth Center"
+  },
+  {
+    "id": "4",
+    "name": "St. Cecilia Choir",
+    "description": "Lifting our spirits with angelic voices during Mass and special occasions. New members welcome.",
+    "leader": {
+      "name": "Susan White",
+      "phone": "123-456-7893"
+    },
+    "members": 30,
+    "location": "Church Balcony"
+  },
+  {
+    "id": "5",
+    "name": "St. Vincent de Paul Society",
+    "description": "Serving the poor and needy in our community with love and compassion, following Christ's example.",
+    "leader": {
+      "name": "David Green",
+      "phone": "123-456-7894"
+    },
+    "members": 25,
+    "location": "Parish Office"
+  },
+  {
+    "id": "6",
+    "name": "Legion of Mary",
+    "description": "A lay apostolic association of Catholics who, with the sanction of the Church, serve under the banner of Mary.",
+    "leader": {
+      "name": "Mary Johnson",
+      "phone": "123-456-7895"
+    },
+    "members": 20,
+    "location": "Grotto"
+  }
+]

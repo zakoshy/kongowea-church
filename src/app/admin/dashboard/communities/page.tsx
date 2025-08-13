@@ -25,15 +25,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
+import { getCommunities } from '@/lib/db';
   
 
-export default function ManageCommunitiesPage() {
-    const communities = [
-        { name: "Catholic Men Association", members: 50, leader: "John Green" },
-        { name: "Catholic Women Association", members: 75, leader: "Mary White" },
-        { name: "Parish Youth Group", members: 40, leader: "Michael Brown" },
-        { name: "St. Cecilia Choir", members: 30, leader: "Susan White" },
-      ];
+export default async function ManageCommunitiesPage() {
+    const communities = await getCommunities();
 
   return (
     <Card>
@@ -71,7 +67,7 @@ export default function ManageCommunitiesPage() {
               <TableCell>
                 {community.members}
               </TableCell>
-              <TableCell>{community.leader}</TableCell>
+              <TableCell>{community.leader.name}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

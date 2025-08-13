@@ -1,23 +1,45 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Users, Music, HeartHandshake, Shield, Phone, User, Search } from "lucide-react";
+import type { Community } from '@/lib/definitions';
+
+// A placeholder to fetch real data
+async function getCommunities(): Promise<Community[]> {
+    const res = await fetch('/api/communities');
+    if (!res.ok) {
+        return [];
+    }
+    const data = await res.json();
+    return data.communities;
+}
+
 
 export default function CommunitiesPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [communities, setCommunities] = useState<Community[]>([]);
 
-  const communities = useMemo(() => [
-    { name: "Catholic Men Association (CMA)", description: "A brotherhood fostering spiritual growth, leadership, and service among men in the parish.", icon: Shield, image: "https://placehold.co/400x400.png", hint: "men group", leader: { name: "John Doe", phone: "123-456-7890" } },
-    { name: "Catholic Women Association (CWA)", description: "Empowering women through faith, fellowship, and charitable works within the community.", icon: Users, image: "https://placehold.co/400x400.png", hint: "women community", leader: { name: "Jane Smith", phone: "123-456-7891" } },
-    { name: "Parish Youth Group", description: "A dynamic group for young parishioners to engage in faith-based activities, service, and fun.", icon: Users, image: "https://placehold.co/400x400.png", hint: "happy youth", leader: { name: "Michael Brown", phone: "123-456-7892" } },
-    { name: "St. Cecilia Choir", description: "Lifting our spirits with angelic voices during Mass and special occasions. New members welcome.", icon: Music, image: "https://placehold.co/400x400.png", hint: "church choir", leader: { name: "Susan White", phone: "123-456-7893" } },
-    { name: "St. Vincent de Paul Society", description: "Serving the poor and needy in our community with love and compassion, following Christ's example.", icon: HeartHandshake, image: "https://placehold.co/400x400.png", hint: "charity work", leader: { name: "David Green", phone: "123-456-7894" } },
-    { name: "Legion of Mary", description: "A lay apostolic association of Catholics who, with the sanction of the Church, serve under the banner of Mary.", icon: Shield, image: "https://placehold.co/400x400.png", hint: "prayer group", leader: { name: "Mary Johnson", phone: "123-456-7895" } },
-  ], []);
+  useEffect(() => {
+    async function loadData() {
+        const fetchedCommunities = await getCommunities();
+        setCommunities(fetchedCommunities.map(c => ({
+            ...c,
+            // Assign icons dynamically based on name, this is a placeholder logic
+            icon: c.name.includes('Choir') ? Music : 
+                  c.name.includes('Men') ? Shield : 
+                  c.name.includes('Women') ? Users :
+                  c.name.includes('Vincent de Paul') ? HeartHandshake :
+                  Users,
+            image: `https://placehold.co/400x400.png`,
+            hint: 'community group'
+        })));
+    }
+    loadData();
+  }, []);
 
   const filteredCommunities = useMemo(() => {
     if (!searchTerm) {
@@ -57,7 +79,7 @@ export default function CommunitiesPage() {
                  <div className="flex justify-center">
                     <Avatar className="w-28 h-28 mb-4 border-4 border-primary/20">
                       <AvatarImage src={community.image} data-ai-hint={community.hint} />
-                      <AvatarFallback><Icon className="w-12 h-12 text-muted-foreground" /></AvatarFallback>
+                      <AvatarFallback>{Icon ? <Icon className="w-12 h-12 text-muted-foreground" /> : null}</AvatarFallback>
                     </Avatar>
                  </div>
                 <CardHeader className="pt-0">
