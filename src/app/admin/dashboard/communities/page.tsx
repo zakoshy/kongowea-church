@@ -23,6 +23,7 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
+    DropdownMenuSeparator,
   } from '@/components/ui/dropdown-menu';
 import { getCommunities } from '@/lib/db';
 import { deleteCommunityAction } from '@/lib/actions';
@@ -89,8 +90,12 @@ export default async function ManageCommunitiesPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem asChild>
+                           <Link href={`/admin/dashboard/communities/edit/${community.id}`}>Edit</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -105,7 +110,7 @@ export default async function ManageCommunitiesPage() {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <form action={deleteCommunityAction.bind(null, community.id)}>
-                        <AlertDialogAction type="submit">Delete</AlertDialogAction>
+                        <Button variant="destructive" type="submit">Delete</Button>
                       </form>
                     </AlertDialogFooter>
                   </AlertDialogContent>

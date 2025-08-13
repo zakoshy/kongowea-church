@@ -22,6 +22,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -96,8 +97,12 @@ export default async function ManageTeamPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                         <DropdownMenuItem asChild>
+                           <Link href={`/admin/dashboard/team/edit/${member.id}`}>Edit</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -112,7 +117,7 @@ export default async function ManageTeamPage() {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <form action={deleteTeamMemberAction.bind(null, member.id)}>
-                        <AlertDialogAction type="submit">Delete</AlertDialogAction>
+                        <Button variant="destructive" type="submit">Delete</Button>
                       </form>
                     </AlertDialogFooter>
                   </AlertDialogContent>

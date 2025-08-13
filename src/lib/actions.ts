@@ -3,7 +3,12 @@
 
 import { z } from 'zod';
 import { generateAnnouncementDraft } from '@/ai/flows/generate-announcement-draft';
-import { addCommunity, addEvent, addTeamMember, addPrayerGroup, deleteCommunity, deleteEvent, deleteTeamMember, deletePrayerGroup } from '@/lib/db';
+import { 
+    addCommunity, updateCommunity, deleteCommunity,
+    addEvent, updateEvent, deleteEvent,
+    addTeamMember, updateTeamMember, deleteTeamMember,
+    addPrayerGroup, updatePrayerGroup, deletePrayerGroup
+} from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -47,6 +52,7 @@ export async function generateDraftAction(
   }
 }
 
+// Community Actions
 const communitySchema = z.object({
     Name: z.string().min(3, 'Name must be at least 3 characters long'),
     Location: z.string().min(3, 'Location must be at least 3 characters long'),
@@ -73,17 +79,9 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
     }
 
     try {
-        await addCommunity({
-            Name: parsed.data.Name,
-            Location: parsed.data.Location,
-            Members: parsed.data.Members,
-            Leader: parsed.data.Leader,
-            Phone: parsed.data.Phone,
-        });
-
+        await addCommunity(parsed.data);
         revalidatePath('/admin/dashboard/communities');
         revalidatePath('/communities');
-        
     } catch(e) {
         console.error(e);
         return { message: 'Failed to create community.'}
@@ -92,6 +90,41 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
     redirect('/admin/dashboard/communities');
 }
 
+export async function updateCommunityAction(id: string, prevState: CommunityFormState, data: FormData): Promise<CommunityFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = communitySchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        }
+    }
+
+    try {
+        await updateCommunity(id, parsed.data);
+        revalidatePath('/admin/dashboard/communities');
+        revalidatePath('/communities');
+    } catch(e) {
+        console.error(e);
+        return { message: 'Failed to update community.'}
+    }
+
+    redirect('/admin/dashboard/communities');
+}
+
+export async function deleteCommunityAction(id: string) {
+  try {
+    await deleteCommunity(id);
+    revalidatePath('/admin/dashboard/communities');
+    revalidatePath('/communities');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete community.' };
+  }
+}
+
+// Event Actions
 const eventSchema = z.object({
     Title: z.string().min(3, 'Title must be at least 3 characters long'),
     Date: z.string().min(3, 'Date must be at least 3 characters long'),
@@ -115,15 +148,9 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
     }
 
     try {
-        await addEvent({
-            Title: parsed.data.Title,
-            Date: parsed.data.Date,
-            Description: parsed.data.Description,
-        });
-
+        await addEvent(parsed.data);
         revalidatePath('/admin/dashboard/events');
         revalidatePath('/events');
-        
     } catch(e) {
         console.error(e)
         return { message: 'Failed to create event.'}
@@ -132,10 +159,45 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
     redirect('/admin/dashboard/events');
 }
 
+export async function updateEventAction(id: string, prevState: EventFormState, data: FormData): Promise<EventFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = eventSchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        }
+    }
+
+    try {
+        await updateEvent(id, parsed.data);
+        revalidatePath('/admin/dashboard/events');
+        revalidatePath('/events');
+    } catch(e) {
+        console.error(e);
+        return { message: 'Failed to update event.'}
+    }
+
+    redirect('/admin/dashboard/events');
+}
+
+export async function deleteEventAction(id: string) {
+  try {
+    await deleteEvent(id);
+    revalidatePath('/admin/dashboard/events');
+    revalidatePath('/events');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete event.' };
+  }
+}
+
+// Team Member Actions
 const teamMemberSchema = z.object({
     Name: z.string().min(3, 'Name must be at least 3 characters long.'),
     Description: z.string().min(3, 'Role must be at least 3 characters long.'),
-    Image: z.any(),
+    Image: z.string().url('Please enter a valid URL.'),
 });
 
 export type TeamMemberFormState = {
@@ -154,20 +216,10 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
         };
     }
     
-    const imageUrl = 'https://placehold.co/400x400.png';
-
-
     try {
-        await addTeamMember({
-            Name: parsed.data.Name,
-            Description: parsed.data.Description,
-            Image: imageUrl,
-            hint: 'person portrait',
-        });
-
+        await addTeamMember({ ...parsed.data, hint: 'person portrait' });
         revalidatePath('/admin/dashboard/team');
         revalidatePath('/team');
-
     } catch (e) {
         console.error(e);
         return { message: 'Failed to create team member.' };
@@ -176,6 +228,41 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
     redirect('/admin/dashboard/team');
 }
 
+export async function updateTeamMemberAction(id: string, prevState: TeamMemberFormState, data: FormData): Promise<TeamMemberFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = teamMemberSchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        };
+    }
+
+    try {
+        await updateTeamMember(id, parsed.data);
+        revalidatePath('/admin/dashboard/team');
+        revalidatePath('/team');
+    } catch (e) {
+        console.error(e);
+        return { message: 'Failed to update team member.' };
+    }
+
+    redirect('/admin/dashboard/team');
+}
+
+export async function deleteTeamMemberAction(id: string) {
+  try {
+    await deleteTeamMember(id);
+    revalidatePath('/admin/dashboard/team');
+    revalidatePath('/team');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete team member.' };
+  }
+}
+
+// Prayer Group Actions
 const prayerGroupSchema = z.object({
     Name: z.string().min(3, 'Name must be at least 3 characters long'),
     Location: z.string().min(3, 'Location must be at least 3 characters long'),
@@ -201,17 +288,9 @@ export async function addPrayerGroupAction(prevState: PrayerGroupFormState, data
     }
 
     try {
-        await addPrayerGroup({
-            Name: parsed.data.Name,
-            Location: parsed.data.Location,
-            Members: parsed.data.Members,
-            Leader: parsed.data.Leader,
-            Phone: parsed.data.Phone,
-        });
-
+        await addPrayerGroup(parsed.data);
         revalidatePath('/admin/dashboard/prayer-groups');
         revalidatePath('/prayer-groups');
-        
     } catch(e) {
         console.error(e);
         return { message: 'Failed to create prayer group.'}
@@ -220,37 +299,27 @@ export async function addPrayerGroupAction(prevState: PrayerGroupFormState, data
     redirect('/admin/dashboard/prayer-groups');
 }
 
-export async function deleteCommunityAction(id: string) {
-  try {
-    await deleteCommunity(id);
-    revalidatePath('/admin/dashboard/communities');
-    revalidatePath('/communities');
-  } catch (e) {
-    console.error(e);
-    return { message: 'Failed to delete community.' };
-  }
-}
+export async function updatePrayerGroupAction(id: string, prevState: PrayerGroupFormState, data: FormData): Promise<PrayerGroupFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = prayerGroupSchema.safeParse(formData);
 
-export async function deleteEventAction(id: string) {
-  try {
-    await deleteEvent(id);
-    revalidatePath('/admin/dashboard/events');
-    revalidatePath('/events');
-  } catch (e) {
-    console.error(e);
-    return { message: 'Failed to delete event.' };
-  }
-}
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        }
+    }
 
-export async function deleteTeamMemberAction(id: string) {
-  try {
-    await deleteTeamMember(id);
-    revalidatePath('/admin/dashboard/team');
-    revalidatePath('/team');
-  } catch (e) {
-    console.error(e);
-    return { message: 'Failed to delete team member.' };
-  }
+    try {
+        await updatePrayerGroup(id, parsed.data);
+        revalidatePath('/admin/dashboard/prayer-groups');
+        revalidatePath('/prayer-groups');
+    } catch(e) {
+        console.error(e);
+        return { message: 'Failed to update prayer group.'}
+    }
+
+    redirect('/admin/dashboard/prayer-groups');
 }
 
 export async function deletePrayerGroupAction(id: string) {

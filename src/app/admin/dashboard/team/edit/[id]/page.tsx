@@ -1,6 +1,7 @@
 
 'use client';
 
+import React from 'react';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,12 +16,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { addTeamMemberAction, type TeamMemberFormState } from '@/lib/actions';
-import { SubmitButton } from './submit-button';
+import { updateTeamMemberAction, type TeamMemberFormState } from '@/lib/actions';
+import { SubmitButton } from '../../new/submit-button';
+import { getTeamMember } from '@/lib/db';
+import type { TeamMember } from '@/lib/definitions';
 
-export default function NewTeamMemberPage() {
+export default function EditTeamMemberPage({ params }: { params: { id: string } }) {
+  const [member, setMember] = React.useState<TeamMember | null>(null);
+  const id = params.id;
+
+  React.useEffect(() => {
+    getTeamMember(id).then(setMember);
+  }, [id]);
+
   const initialState: TeamMemberFormState = { message: '' };
-  const [state, formAction] = useActionState(addTeamMemberAction, initialState);
+  const updateAction = updateTeamMemberAction.bind(null, id);
+  const [state, formAction] = useActionState(updateAction, initialState);
+
+  if (!member) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto py-10">
@@ -34,9 +49,9 @@ export default function NewTeamMemberPage() {
                 </Link>
               </Button>
               <div>
-                <CardTitle className="font-headline text-3xl">Add New Team Member</CardTitle>
+                <CardTitle className="font-headline text-3xl">Edit Team Member</CardTitle>
                 <CardDescription>
-                  Fill in the details below to add a new member to the team.
+                  Update the details for {member.Name}.
                 </CardDescription>
               </div>
             </div>
@@ -44,15 +59,15 @@ export default function NewTeamMemberPage() {
           <CardContent className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="Name">Full Name</Label>
-              <Input id="Name" name="Name" placeholder="e.g., Fr. John Doe" required />
+              <Input id="Name" name="Name" defaultValue={member.Name} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="Description">Role</Label>
-              <Input id="Description" name="Description" placeholder="e.g., Parish Priest" required />
+              <Input id="Description" name="Description" defaultValue={member.Description} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="Image">Image URL</Label>
-              <Input id="Image" name="Image" placeholder="https://example.com/image.png" required />
+              <Input id="Image" name="Image" defaultValue={member.Image} required />
             </div>
             {state?.issues && (
               <div className="text-sm font-medium text-destructive">

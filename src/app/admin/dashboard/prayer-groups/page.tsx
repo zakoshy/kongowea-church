@@ -22,6 +22,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
 import { getPrayerGroups } from '@/lib/db';
@@ -89,8 +90,12 @@ export default async function ManagePrayerGroupsPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                         <DropdownMenuItem asChild>
+                           <Link href={`/admin/dashboard/prayer-groups/edit/${group.id}`}>Edit</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -105,7 +110,7 @@ export default async function ManagePrayerGroupsPage() {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <form action={deletePrayerGroupAction.bind(null, group.id)}>
-                        <AlertDialogAction type="submit">Delete</AlertDialogAction>
+                        <Button variant="destructive" type="submit">Delete</Button>
                       </form>
                     </AlertDialogFooter>
                   </AlertDialogContent>
