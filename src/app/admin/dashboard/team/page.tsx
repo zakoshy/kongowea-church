@@ -26,15 +26,11 @@ import {
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getTeamMembers } from '@/lib/db';
   
 
-export default function ManageTeamPage() {
-    const team = [
-        { name: "Fr. John Doe", role: "Parish Priest", image: "https://placehold.co/40x40.png" },
-        { name: "Fr. Peter Jones", role: "Assistant Priest", image: "https://placehold.co/40x40.png" },
-        { name: "Jane Smith", role: "Parish Council Chair", image: "https://placehold.co/40x40.png" },
-        { name: "Michael Brown", role: "Youth Coordinator", image: "https://placehold.co/40x40.png" },
-      ];
+export default async function ManageTeamPage() {
+    const team = await getTeamMembers();
 
   return (
     <Card>
@@ -65,12 +61,12 @@ export default function ManageTeamPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {team.map((member, index) => (
-            <TableRow key={index}>
+            {team.map((member) => (
+            <TableRow key={member.id}>
               <TableCell className="font-medium">
                 <div className="flex items-center gap-3">
                   <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src={member.image} alt={member.name} />
+                    <AvatarImage src={member.image} alt={member.name} data-ai-hint="person photo" />
                     <AvatarFallback>{member.name.split(' ').map(n=>n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   {member.name}

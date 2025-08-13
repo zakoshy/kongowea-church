@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { generateAnnouncementDraft } from '@/ai/flows/generate-announcement-draft';
-import { addCommunity, addEvent } from '@/lib/db';
+import { addCommunity, addEvent, addTeamMember } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -136,4 +136,45 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
     }
 
     redirect('/admin/dashboard/events');
+}
+
+const teamMemberSchema = z.object({
+    name: z.string().min(3, 'Name must be at least 3 characters long.'),
+    role: z.string().min(3, 'Role must be at least 3 characters long.'),
+    image: z.string().url({ message: 'Please enter a valid image URL.' }),
+});
+
+export type TeamMemberFormState = {
+    message: string;
+    issues?: string[];
+};
+
+export async function addTeamMemberAction(prevState: TeamMemberFormState, data: FormData): Promise<TeamMemberFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = teamMemberSchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        };
+    }
+
+    try {
+        await addTeamMember({
+            name: parsed.data.name,
+            role: parsed.data.role,
+            image: parsed.data.image,
+            hint: 'person portrait',
+        });
+
+        revalidatePath('/admin/dashboard/team');
+        revalidatePath('/team');
+
+    } catch (e) {
+        console.error(e);
+        return { message: 'Failed to create team member.' };
+    }
+
+    redirect('/admin/dashboard/team');
 }

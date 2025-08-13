@@ -23,3 +23,11 @@ export type Event = {
     hint: string;
     status: "Recurring" | "Published" | "Archived" | "Draft";
 }
+
+export type TeamMember = {
+    id: string;
+    name: string;
+    role: string;
+    image: string;
+    hint: string;
+}

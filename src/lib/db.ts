@@ -4,7 +4,7 @@
  */
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
-import type { Community, Event } from './definitions';
+import type { Community, Event, TeamMember } from './definitions';
 
 export async function getCommunities(): Promise<Community[]> {
   const querySnapshot = await getDocs(collection(db, "communities"));
@@ -34,4 +34,17 @@ export async function addEvent(event: Omit<Event, 'id' | 'status'>): Promise<voi
         status: 'Published'
     }
     await addDoc(collection(db, "events"), newEvent);
+}
+
+export async function getTeamMembers(): Promise<TeamMember[]> {
+    const querySnapshot = await getDocs(collection(db, "team"));
+    const team: TeamMember[] = [];
+    querySnapshot.forEach((doc) => {
+        team.push({ id: doc.id, ...doc.data() } as TeamMember);
+    });
+    return team;
+}
+
+export async function addTeamMember(teamMember: Omit<TeamMember, 'id'>): Promise<void> {
+    await addDoc(collection(db, "team"), teamMember);
 }
