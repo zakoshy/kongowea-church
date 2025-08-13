@@ -27,6 +27,12 @@ function isNodeError(error: unknown): error is NodeJS.ErrnoException {
 }
 
 async function writeData<T>(filePath: string, data: T[]): Promise<void> {
+    const dir = path.dirname(filePath);
+    try {
+        await fs.access(dir);
+    } catch (e) {
+        await fs.mkdir(dir, { recursive: true });
+    }
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
