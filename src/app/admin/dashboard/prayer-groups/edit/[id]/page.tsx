@@ -1,8 +1,7 @@
 
 'use client';
 
-import React from 'react';
-import { useActionState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -31,8 +30,17 @@ export default function EditPrayerGroupPage({ params }: { params: { id: string }
     }, [id]);
 
     const initialState: PrayerGroupFormState = { message: ''};
-    const updateAction = updatePrayerGroupAction.bind(null, id);
-    const [state, formAction] = useActionState(updateAction, initialState);
+    const [state, setState] = useState<PrayerGroupFormState>(initialState);
+    const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await updatePrayerGroupAction(id, initialState, formData);
+             if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
     if (!group) {
         return <div>Loading...</div>;

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useActionState } from 'react';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,7 +20,17 @@ import { SubmitButton } from './submit-button';
 
 export default function NewTeamMemberPage() {
   const initialState: TeamMemberFormState = { message: '' };
-  const [state, formAction] = useActionState(addTeamMemberAction, initialState);
+  const [state, setState] = useState<TeamMemberFormState>(initialState);
+  const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await addTeamMemberAction(initialState, formData);
+            if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
   return (
     <div className="container mx-auto py-10">

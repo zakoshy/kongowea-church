@@ -1,8 +1,7 @@
 
 'use client';
 
-import React from 'react';
-import { useActionState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -17,7 +16,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { updateCommunityAction, type CommunityFormState } from '@/lib/actions';
-import { SubmitButton } from '../../../prayer-groups/new/submit-button';
+import { SubmitButton } from '../new/submit-button';
 import { getCommunity } from '@/lib/db';
 import type { Community } from '@/lib/definitions';
 
@@ -31,8 +30,17 @@ export default function EditCommunityPage({ params }: { params: { id: string } }
     }, [id]);
 
     const initialState: CommunityFormState = { message: ''};
-    const updateAction = updateCommunityAction.bind(null, id);
-    const [state, formAction] = useActionState(updateAction, initialState);
+    const [state, setState] = useState<CommunityFormState>(initialState);
+    const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await updateCommunityAction(id, initialState, formData);
+             if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
     if (!community) {
         return <div>Loading...</div>;

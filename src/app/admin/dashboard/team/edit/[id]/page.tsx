@@ -1,8 +1,7 @@
 
 'use client';
 
-import React from 'react';
-import { useActionState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -30,8 +29,17 @@ export default function EditTeamMemberPage({ params }: { params: { id: string } 
   }, [id]);
 
   const initialState: TeamMemberFormState = { message: '' };
-  const updateAction = updateTeamMemberAction.bind(null, id);
-  const [state, formAction] = useActionState(updateAction, initialState);
+  const [state, setState] = useState<TeamMemberFormState>(initialState);
+  const [isPending, startTransition] = useTransition();
+
+  const formAction = (formData: FormData) => {
+    startTransition(async () => {
+      const newState = await updateTeamMemberAction(id, initialState, formData);
+       if (newState.message) {
+          setState(newState);
+      }
+    });
+  };
 
   if (!member) {
     return <div>Loading...</div>;

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useActionState } from 'react';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,7 +22,17 @@ import { Textarea } from '@/components/ui/textarea';
 
 export default function NewEventPage() {
     const initialState: EventFormState = { message: ''};
-    const [state, formAction] = useActionState(addEventAction, initialState);
+    const [state, setState] = useState<EventFormState>(initialState);
+    const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await addEventAction(initialState, formData);
+             if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
   return (
     <div className="container mx-auto py-10">

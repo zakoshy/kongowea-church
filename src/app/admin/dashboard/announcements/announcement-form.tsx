@@ -1,6 +1,7 @@
 'use client';
 
-import { useActionState, useFormStatus } from 'react-dom';
+import { useState, useTransition } from 'react';
+import { useFormStatus } from 'react-dom';
 import { generateDraftAction, type FormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -31,8 +32,16 @@ function SubmitButton() {
 
 export default function AnnouncementForm() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useActionState(generateDraftAction, initialState);
+  const [state, setState] = useState<FormState>(initialState);
+  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  
+  const formAction = (formData: FormData) => {
+    startTransition(async () => {
+      const newState = await generateDraftAction(initialState, formData);
+      setState(newState);
+    });
+  };
 
   useEffect(() => {
     if (state.message && state.message !== 'Invalid form data' && !state.draft) {

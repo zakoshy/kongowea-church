@@ -1,8 +1,7 @@
 
 'use client';
 
-import React from 'react';
-import { useActionState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -32,8 +31,17 @@ export default function EditEventPage({ params }: { params: { id: string } }) {
     }, [id]);
 
     const initialState: EventFormState = { message: ''};
-    const updateAction = updateEventAction.bind(null, id);
-    const [state, formAction] = useActionState(updateAction, initialState);
+    const [state, setState] = useState<EventFormState>(initialState);
+    const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await updateEventAction(id, initialState, formData);
+             if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
     if (!event) {
         return <div>Loading...</div>;

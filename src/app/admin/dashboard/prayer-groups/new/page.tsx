@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useActionState } from 'react';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,7 +21,17 @@ import { SubmitButton } from './submit-button';
 
 export default function NewPrayerGroupPage() {
     const initialState: PrayerGroupFormState = { message: ''};
-    const [state, formAction] = useActionState(addPrayerGroupAction, initialState);
+    const [state, setState] = useState<PrayerGroupFormState>(initialState);
+    const [isPending, startTransition] = useTransition();
+
+    const formAction = (formData: FormData) => {
+        startTransition(async () => {
+            const newState = await addPrayerGroupAction(initialState, formData);
+            if (newState.message) {
+                setState(newState);
+            }
+        });
+    };
 
   return (
     <div className="container mx-auto py-10">
