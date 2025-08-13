@@ -61,7 +61,7 @@ export default async function Home() {
                 <CardDescription>Monday to Friday</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-primary">7:00 AM</p>
+                <p className="text-3xl font-bold text-primary">6:00 AM - 7:00 AM</p>
               </CardContent>
             </Card>
             <Card className="shadow-lg">
@@ -70,7 +70,7 @@ export default async function Home() {
                 <CardDescription>Anticipatory Mass</CardDescription>
               </CardHeader>
               <CardContent>
-                 <p className="text-3xl font-bold text-primary">5:30 PM</p>
+                 <p className="text-3xl font-bold text-primary">6:00 AM - 7:00 AM</p>
               </CardContent>
             </Card>
             <Card className="shadow-lg">
@@ -78,8 +78,11 @@ export default async function Home() {
                 <CardTitle className="font-headline text-2xl">Sunday Mass</CardTitle>
                 <CardDescription>Multiple services</CardDescription>
               </CardHeader>
-              <CardContent>
-                 <p className="text-3xl font-bold text-primary">8:00 AM & 10:30 AM</p>
+              <CardContent className="space-y-2">
+                 <p className="text-xl font-bold text-primary">6:30 AM - 8:00 AM</p>
+                 <p className="text-xl font-bold text-primary">8:00 AM - 9:30 AM</p>
+                 <p className="text-xl font-bold text-primary">9:30 AM - 11:00 AM</p>
+                 <p className="text-xl font-bold text-primary">11:00 AM - 1:00 PM</p>
               </CardContent>
             </Card>
           </div>
