@@ -23,13 +23,14 @@ import type { TeamMember } from '@/lib/definitions';
 
 export default function EditTeamMemberPage({ params }: { params: { id: string } }) {
   const [member, setMember] = React.useState<TeamMember | null>(null);
+  const id = params.id;
 
   React.useEffect(() => {
-    getTeamMember(params.id).then(setMember);
-  }, [params.id]);
+    getTeamMember(id).then(setMember);
+  }, [id]);
 
   const initialState: TeamMemberFormState = { message: '' };
-  const updateAction = updateTeamMemberAction.bind(null, params.id);
+  const updateAction = updateTeamMemberAction.bind(null, id);
   const [state, formAction] = useActionState(updateAction, initialState);
 
   if (!member) {

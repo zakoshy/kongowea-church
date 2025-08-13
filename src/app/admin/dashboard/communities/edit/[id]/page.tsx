@@ -24,13 +24,14 @@ import type { Community } from '@/lib/definitions';
 
 export default function EditCommunityPage({ params }: { params: { id: string } }) {
     const [community, setCommunity] = React.useState<Community | null>(null);
+    const id = params.id;
 
     React.useEffect(() => {
-        getCommunity(params.id).then(setCommunity);
-    }, [params.id]);
+        getCommunity(id).then(setCommunity);
+    }, [id]);
 
     const initialState: CommunityFormState = { message: ''};
-    const updateAction = updateCommunityAction.bind(null, params.id);
+    const updateAction = updateCommunityAction.bind(null, id);
     const [state, formAction] = useActionState(updateAction, initialState);
 
     if (!community) {

@@ -25,13 +25,14 @@ import type { Event } from '@/lib/definitions';
 
 export default function EditEventPage({ params }: { params: { id: string } }) {
     const [event, setEvent] = React.useState<Event | null>(null);
+    const id = params.id;
 
     React.useEffect(() => {
-        getEvent(params.id).then(setEvent);
-    }, [params.id]);
+        getEvent(id).then(setEvent);
+    }, [id]);
 
     const initialState: EventFormState = { message: ''};
-    const updateAction = updateEventAction.bind(null, params.id);
+    const updateAction = updateEventAction.bind(null, id);
     const [state, formAction] = useActionState(updateAction, initialState);
 
     if (!event) {
