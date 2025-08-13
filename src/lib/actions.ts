@@ -79,9 +79,6 @@ export async function addCommunityAction(prevState: CommunityFormState, data: Fo
             Members: parsed.data.Members,
             Leader: parsed.data.Leader,
             Phone: parsed.data.Phone,
-            Description: "A new community group.",
-            Image: "https://placehold.co/400x400.png",
-            hint: "community group"
         });
 
         revalidatePath('/admin/dashboard/communities');
@@ -122,8 +119,6 @@ export async function addEventAction(prevState: EventFormState, data: FormData):
             Title: parsed.data.Title,
             Date: parsed.data.Date,
             Description: parsed.data.Description,
-            Image: 'https://placehold.co/600x400.png', // Default placeholder
-            hint: 'church event'
         });
 
         revalidatePath('/admin/dashboard/events');

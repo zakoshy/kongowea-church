@@ -112,15 +112,15 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event) => (
               <Card key={event.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="p-0">
-                  <Image src={event.Image || 'https://placehold.co/600x400.png'} alt={event.Title} width={600} height={400} className="w-full h-48 object-cover" data-ai-hint={event.hint} />
-                </CardHeader>
-                <CardContent className="p-6">
+                <CardHeader className="p-6">
                   <CardTitle className="font-headline text-xl">{event.Title}</CardTitle>
                   <div className="flex items-center text-muted-foreground mt-2">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span>{event.Date}</span>
                   </div>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                   <p className="text-sm text-muted-foreground line-clamp-3">{event.Description}</p>
                 </CardContent>
                 <CardFooter>
                   <Button variant="link" asChild>
