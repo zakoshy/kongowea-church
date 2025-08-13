@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,7 +47,7 @@ export default function ManageTeamPage() {
                 </CardDescription>
             </div>
             <Button asChild>
-                <Link href="#">
+                <Link href="/admin/dashboard/team/new">
                     <PlusCircle className="mr-2 h-4 w-4" /> Add New Member
                 </Link>
             </Button>

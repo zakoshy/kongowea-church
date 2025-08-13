@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -45,7 +46,7 @@ export default function ManageEventsPage() {
                 </CardDescription>
             </div>
             <Button asChild>
-                <Link href="#">
+                <Link href="/admin/dashboard/events/new">
                     <PlusCircle className="mr-2 h-4 w-4" /> Add New Event
                 </Link>
             </Button>
