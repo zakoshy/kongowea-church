@@ -5,13 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight, Calendar, Users, HeartHandshake, Church, Clock, Eye, Goal, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getEvents } from "@/lib/db";
 
-export default function Home() {
-  const events = [
-    { title: "Sunday Mass", date: "Every Sunday, 8:00 AM", image: "https://placehold.co/600x400.png", hint: "church service" },
-    { title: "Youth Fellowship", date: "Every Friday, 5:00 PM", image: "https://placehold.co/600x400.png", hint: "group prayer" },
-    { title: "Charity Drive", date: "October 28, 2024", image: "https://placehold.co/600x400.png", hint: "community outreach" },
-  ];
+export default async function Home() {
+  const allEvents = await getEvents();
+  const events = allEvents.slice(0, 3);
 
   return (
     <div className="flex flex-col">
@@ -112,16 +110,16 @@ export default function Home() {
             <p className="text-muted-foreground mt-2 text-lg">Stay connected with our church activities.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event, index) => (
-              <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            {events.map((event) => (
+              <Card key={event.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="p-0">
-                  <Image src={event.image} alt={event.title} width={600} height={400} className="w-full h-48 object-cover" data-ai-hint={event.hint} />
+                  <Image src={event.Image || 'https://placehold.co/600x400.png'} alt={event.Title} width={600} height={400} className="w-full h-48 object-cover" data-ai-hint={event.hint} />
                 </CardHeader>
                 <CardContent className="p-6">
-                  <CardTitle className="font-headline text-xl">{event.title}</CardTitle>
+                  <CardTitle className="font-headline text-xl">{event.Title}</CardTitle>
                   <div className="flex items-center text-muted-foreground mt-2">
                     <Calendar className="w-4 h-4 mr-2" />
-                    <span>{event.date}</span>
+                    <span>{event.Date}</span>
                   </div>
                 </CardContent>
                 <CardFooter>
