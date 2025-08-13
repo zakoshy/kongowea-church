@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Calendar, Users, HeartHandshake } from "lucide-react";
+import { ArrowRight, Calendar, Users, HeartHandshake, Church, Clock, Eye, Goal, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,6 +26,86 @@ export default function Home() {
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold">Our Lady of Fatima Kongowea Church</h1>
           <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
             Welcome to our parish family. Join us in faith, fellowship, and service.
+          </p>
+        </div>
+      </section>
+
+      <section id="mission-vision" className="py-16 md:py-24 bg-card">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="text-center md:text-left">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold">Our Mission & Vision</h2>
+              <div className="flex justify-center md:justify-start items-center gap-4 mt-6">
+                <Goal className="h-10 w-10 text-primary" />
+                <div>
+                  <h3 className="font-headline text-2xl font-semibold">Our Mission</h3>
+                  <p className="text-muted-foreground mt-1">To be a welcoming community that proclaims the Gospel, celebrates the Eucharist, and serves our neighbours with love and compassion.</p>
+                </div>
+              </div>
+              <div className="flex justify-center md:justify-start items-center gap-4 mt-6">
+                <Eye className="h-10 w-10 text-primary" />
+                <div>
+                  <h3 className="font-headline text-2xl font-semibold">Our Vision</h3>
+                  <p className="text-muted-foreground mt-1">To grow as a vibrant, Christ-centered family, united in faith and dedicated to making disciples for the glory of God.</p>
+                </div>
+              </div>
+            </div>
+             <div>
+              <Image src="https://placehold.co/600x400.png" alt="Parishioners praying" width={600} height={400} className="rounded-lg shadow-xl" data-ai-hint="people praying" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mass-times" className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="font-headline text-3xl md:text-4xl font-bold">Mass Times</h2>
+          <p className="text-muted-foreground mt-2 text-lg">Join us for worship and prayer.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="font-headline text-2xl">Weekday Mass</CardTitle>
+                <CardDescription>Monday to Friday</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold text-primary">7:00 AM</p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="font-headline text-2xl">Saturday Mass</CardTitle>
+                <CardDescription>Anticipatory Mass</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 <p className="text-3xl font-bold text-primary">5:30 PM</p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="font-headline text-2xl">Sunday Mass</CardTitle>
+                <CardDescription>Multiple services</CardDescription>
+              </CardHeader>
+              <CardContent>
+                 <p className="text-3xl font-bold text-primary">8:00 AM & 10:30 AM</p>
+              </CardContent>
+            </Card>
+          </div>
+           <Button asChild size="lg" className="mt-12">
+              <Link href="/contact">Get Directions</Link>
+            </Button>
+        </div>
+      </section>
+      
+      <section id="message-of-hope" className="py-16 md:py-24 bg-primary/10">
+        <div className="container mx-auto px-4 text-center">
+          <Quote className="mx-auto h-12 w-12 text-primary mb-4" />
+          <h2 className="font-headline text-3xl md:text-4xl font-bold">A Message of Hope</h2>
+          <blockquote className="text-muted-foreground mt-4 text-xl md:text-2xl max-w-3xl mx-auto italic">
+            "Pray, hope, and don't worry. Worry is useless. God is merciful and will hear your prayer."
+          </blockquote>
+          <p className="mt-2 text-lg font-semibold">- St. Padre Pio</p>
+          <p className="text-muted-foreground mt-4 text-lg max-w-2xl mx-auto">
+            You are a cherished member of God's family. We invite you to find peace, strength, and community with us.
           </p>
         </div>
       </section>
