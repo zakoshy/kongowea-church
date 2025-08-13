@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { updateCommunityAction, type CommunityFormState } from '@/lib/actions';
-import { SubmitButton } from '../new/submit-button';
+import { SubmitButton } from '../../new/submit-button';
 import { getCommunity } from '@/lib/db';
 import type { Community } from '@/lib/definitions';
 
