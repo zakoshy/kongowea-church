@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -45,7 +46,7 @@ export default function Home() {
               </div>
             </div>
              <div>
-              <Image src="https://placehold.co/600x400.png" alt="Parishioners praying" width={600} height={400} className="rounded-lg shadow-xl" data-ai-hint="people praying" />
+              <Image src="/fatima2.jpg" alt="Our Lady of Fatima Kongowea Church" width={600} height={400} className="rounded-lg shadow-xl" />
             </div>
           </div>
         </div>
