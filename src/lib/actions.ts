@@ -221,21 +221,45 @@ export async function addPrayerGroupAction(prevState: PrayerGroupFormState, data
 }
 
 export async function deleteCommunityAction(id: string) {
-  await deleteCommunity(id);
-  revalidatePath('/admin/dashboard/communities');
+  try {
+    await deleteCommunity(id);
+    revalidatePath('/admin/dashboard/communities');
+    revalidatePath('/communities');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete community.' };
+  }
 }
 
 export async function deleteEventAction(id: string) {
+  try {
     await deleteEvent(id);
     revalidatePath('/admin/dashboard/events');
+    revalidatePath('/events');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete event.' };
+  }
 }
 
 export async function deleteTeamMemberAction(id: string) {
+  try {
     await deleteTeamMember(id);
     revalidatePath('/admin/dashboard/team');
+    revalidatePath('/team');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete team member.' };
+  }
 }
 
 export async function deletePrayerGroupAction(id: string) {
+  try {
     await deletePrayerGroup(id);
     revalidatePath('/admin/dashboard/prayer-groups');
+    revalidatePath('/prayer-groups');
+  } catch (e) {
+    console.error(e);
+    return { message: 'Failed to delete prayer group.' };
+  }
 }
