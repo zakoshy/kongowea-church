@@ -3,8 +3,8 @@
  * In a real application, this would be replaced with a proper database like Firebase Firestore.
  */
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
-import type { Community, Event, TeamMember } from './definitions';
+import { collection, getDocs, addDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import type { Community, Event, TeamMember, PrayerGroup } from './definitions';
 
 export async function getCommunities(): Promise<Community[]> {
   const querySnapshot = await getDocs(collection(db, "communities"));
@@ -47,4 +47,33 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 
 export async function addTeamMember(teamMember: Omit<TeamMember, 'id'>): Promise<void> {
     await addDoc(collection(db, "team"), teamMember);
+}
+
+export async function getPrayerGroups(): Promise<PrayerGroup[]> {
+  const querySnapshot = await getDocs(collection(db, "prayer-groups"));
+  const prayerGroups: PrayerGroup[] = [];
+  querySnapshot.forEach((doc) => {
+    prayerGroups.push({ id: doc.id, ...doc.data() } as PrayerGroup);
+  });
+  return prayerGroups;
+}
+
+export async function addPrayerGroup(prayerGroup: Omit<PrayerGroup, 'id'>): Promise<void> {
+    await addDoc(collection(db, "prayer-groups"), prayerGroup);
+}
+
+export async function deleteCommunity(id: string): Promise<void> {
+    await deleteDoc(doc(db, "communities", id));
+}
+
+export async function deleteEvent(id: string): Promise<void> {
+    await deleteDoc(doc(db, "events", id));
+}
+
+export async function deleteTeamMember(id: string): Promise<void> {
+    await deleteDoc(doc(db, "team", id));
+}
+
+export async function deletePrayerGroup(id: string): Promise<void> {
+    await deleteDoc(doc(db, "prayer-groups", id));
 }

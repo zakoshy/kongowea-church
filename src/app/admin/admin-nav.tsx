@@ -7,7 +7,8 @@ import {
     Calendar,
     Users,
     Shield,
-    Church
+    Church,
+    HeartHandshake
 } from 'lucide-react';
 import NavItem from './nav-item';
 
@@ -17,6 +18,7 @@ export default function AdminNav({ isMobile = false }: { isMobile?: boolean }) {
         { href: '/admin/dashboard/announcements', icon: Wand2, label: 'Announcements' },
         { href: '/admin/dashboard/events', icon: Calendar, label: 'Events' },
         { href: '/admin/dashboard/communities', icon: Users, label: 'Communities' },
+        { href: '/admin/dashboard/prayer-groups', icon: HeartHandshake, label: 'Prayer Groups' },
         { href: '/admin/dashboard/team', icon: Shield, label: 'Team' },
     ];
 

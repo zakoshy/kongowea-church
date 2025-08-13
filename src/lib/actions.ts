@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import { generateAnnouncementDraft } from '@/ai/flows/generate-announcement-draft';
-import { addCommunity, addEvent, addTeamMember } from '@/lib/db';
+import { addCommunity, addEvent, addTeamMember, addPrayerGroup, deleteCommunity, deleteEvent, deleteTeamMember, deletePrayerGroup } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -154,9 +154,6 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
         };
     }
     
-    // This is a placeholder for the file upload logic.
-    // In a real app, you would upload the file to a service like Firebase Storage
-    // and get a URL back.
     const imageUrl = 'https://placehold.co/400x400.png';
 
 
@@ -177,4 +174,68 @@ export async function addTeamMemberAction(prevState: TeamMemberFormState, data: 
     }
 
     redirect('/admin/dashboard/team');
+}
+
+const prayerGroupSchema = z.object({
+    Name: z.string().min(3, 'Name must be at least 3 characters long'),
+    Location: z.string().min(3, 'Location must be at least 3 characters long'),
+    Members: z.coerce.number().min(1, 'There must be at least one member'),
+    Leader: z.string().min(3, 'Leader name must be at least 3 characters long'),
+    Phone: z.string().min(10, 'Please enter a valid phone number'),
+});
+
+export type PrayerGroupFormState = {
+    message: string;
+    issues?: string[];
+};
+
+export async function addPrayerGroupAction(prevState: PrayerGroupFormState, data: FormData): Promise<PrayerGroupFormState> {
+    const formData = Object.fromEntries(data);
+    const parsed = prayerGroupSchema.safeParse(formData);
+
+    if (!parsed.success) {
+        return {
+            message: 'Invalid form data.',
+            issues: parsed.error.issues.map(issue => issue.message),
+        }
+    }
+
+    try {
+        await addPrayerGroup({
+            Name: parsed.data.Name,
+            Location: parsed.data.Location,
+            Members: parsed.data.Members,
+            Leader: parsed.data.Leader,
+            Phone: parsed.data.Phone,
+        });
+
+        revalidatePath('/admin/dashboard/prayer-groups');
+        revalidatePath('/prayer-groups');
+        
+    } catch(e) {
+        console.error(e);
+        return { message: 'Failed to create prayer group.'}
+    }
+
+    redirect('/admin/dashboard/prayer-groups');
+}
+
+export async function deleteCommunityAction(id: string) {
+  await deleteCommunity(id);
+  revalidatePath('/admin/dashboard/communities');
+}
+
+export async function deleteEventAction(id: string) {
+    await deleteEvent(id);
+    revalidatePath('/admin/dashboard/events');
+}
+
+export async function deleteTeamMemberAction(id: string) {
+    await deleteTeamMember(id);
+    revalidatePath('/admin/dashboard/team');
+}
+
+export async function deletePrayerGroupAction(id: string) {
+    await deletePrayerGroup(id);
+    revalidatePath('/admin/dashboard/prayer-groups');
 }

@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import {
     DropdownMenu,
@@ -25,26 +24,26 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
-import { getEvents } from '@/lib/db';
-import { deleteEventAction } from '@/lib/actions';
+import { getPrayerGroups } from '@/lib/db';
+import { deletePrayerGroupAction } from '@/lib/actions';
   
 
-export default async function ManageEventsPage() {
-    const events = await getEvents();
+export default async function ManagePrayerGroupsPage() {
+    const prayerGroups = await getPrayerGroups();
 
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
             <div>
-                <CardTitle className="font-headline text-3xl">Manage Events</CardTitle>
+                <CardTitle className="font-headline text-3xl">Manage Prayer Groups</CardTitle>
                 <CardDescription>
-                    Update, add, or remove church events.
+                    Update details for parish prayer groups.
                 </CardDescription>
             </div>
             <Button asChild>
-                <Link href="/admin/dashboard/events/new">
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Event
+                <Link href="/admin/dashboard/prayer-groups/new">
+                    <PlusCircle className="mr-2 h-4 w-4" /> Add New Prayer Group
                 </Link>
             </Button>
         </div>
@@ -53,22 +52,22 @@ export default async function ManageEventsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Event Title</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Group Name</TableHead>
+              <TableHead>Members</TableHead>
+              <TableHead>Leader</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {events.map((event) => (
-            <TableRow key={event.id}>
-              <TableCell className="font-medium">{event.Title}</TableCell>
+            {prayerGroups.map((group) => (
+            <TableRow key={group.id}>
+              <TableCell className="font-medium">{group.Name}</TableCell>
               <TableCell>
-                <Badge variant={event.Status === "Published" ? "default" : "outline"}>{event.Status || 'Draft'}</Badge>
+                {group.Members}
               </TableCell>
-              <TableCell>{event.Date}</TableCell>
+              <TableCell>{group.Leader}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -80,7 +79,7 @@ export default async function ManageEventsPage() {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <form action={deleteEventAction.bind(null, event.id)}>
+                    <form action={deletePrayerGroupAction.bind(null, group.id)}>
                       <button type="submit" className="w-full text-left relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">Delete</button>
                     </form>
                   </DropdownMenuContent>

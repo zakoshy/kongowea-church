@@ -23,3 +23,12 @@ export type TeamMember = {
     Image: string;
     hint?: string;
 }
+
+export type PrayerGroup = {
+    id: string;
+    Name: string;
+    Leader: string;
+    Phone: string;
+    Members?: number;
+    Location?: string;
+}

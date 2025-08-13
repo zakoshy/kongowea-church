@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import {
     DropdownMenu,
@@ -26,6 +25,7 @@ import {
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
 import { getCommunities } from '@/lib/db';
+import { deleteCommunityAction } from '@/lib/actions';
   
 
 export default async function ManageCommunitiesPage() {
@@ -79,7 +79,9 @@ export default async function ManageCommunitiesPage() {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <form action={deleteCommunityAction.bind(null, community.id)}>
+                      <button type="submit" className="w-full text-left relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">Delete</button>
+                    </form>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

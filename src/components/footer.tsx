@@ -6,6 +6,7 @@ export function AppFooter() {
     { href: '/', label: 'Home' },
     { href: '/events', label: 'Events' },
     { href: '/communities', label: 'Communities' },
+    { href: '/prayer-groups', label: 'Prayer Groups' },
     { href: '/team', label: 'Team' },
     { href: '/contact', label: 'Contact Us' },
     { href: '/support', label: 'Support' },
