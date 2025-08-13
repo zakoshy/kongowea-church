@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import {
   Bell,
+  Menu,
   Home,
   Users,
   Calendar,
@@ -11,15 +12,7 @@ import {
   Church
 } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,23 +21,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import NavItem from './nav-item';
+import AdminNav from './admin-nav';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const navItems = [
-    { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/admin/dashboard/announcements', icon: Wand2, label: 'Announcements' },
-    { href: '/admin/dashboard/events', icon: Calendar, label: 'Events' },
-    { href: '/admin/dashboard/communities', icon: Users, label: 'Communities' },
-    { href: '/admin/dashboard/team', icon: Shield, label: 'Team' },
-  ];
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-muted/40">
@@ -57,11 +42,7 @@ export default function AdminLayout({
             </Link>
           </div>
           <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {navItems.map((item) => (
-                <NavItem key={item.href} {...item} />
-              ))}
-            </nav>
+            <AdminNav />
           </div>
         </div>
       </div>
@@ -79,18 +60,7 @@ export default function AdminLayout({
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-                <Link
-                  href="#"
-                  className="flex items-center gap-2 text-lg font-semibold mb-4"
-                >
-                  <Church className="h-6 w-6 text-primary" />
-                  <span className="font-headline">Fatima Connect</span>
-                </Link>
-                {navItems.map((item) => (
-                    <NavItem key={item.href} {...item} isMobile />
-                ))}
-              </nav>
+               <AdminNav isMobile />
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
@@ -126,25 +96,4 @@ export default function AdminLayout({
       </div>
     </div>
   );
-}
-
-function Menu(props: any) {
-    return (
-        <svg
-        {...props}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        >
-        <line x1="4" x2="20" y1="12" y2="12" />
-        <line x1="4" x2="20" y1="6" y2="6" />
-        <line x1="4" x2="20" y1="18" y2="18" />
-        </svg>
-    )
 }
